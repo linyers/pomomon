@@ -1,10 +1,14 @@
-import { useNavigate } from "react-router";
 import { useUserStore } from "../store/user";
+import { usePomodoroStore } from "../store/pomodoro";
+import { PomodoroMode } from "../enums";
 
 export default function UnAuthHome() {
   window.history.pushState({}, "", "/");
 
   const setDefaultUser = useUserStore((state) => state.setDefaultUser);
+  const setDefaultPomodoro = usePomodoroStore(
+    (state) => state.setDefaultPomodoro,
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -12,6 +16,7 @@ export default function UnAuthHome() {
     const name = nameInput && nameInput.value.trim();
     if (!name) return;
     setDefaultUser(name);
+    setDefaultPomodoro();
   };
 
   return (

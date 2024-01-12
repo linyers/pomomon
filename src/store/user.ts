@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { type User } from "../types";
 
 interface State {
-  user: User | undefined;
+  user?: User;
   setDefaultUser: (name: string) => void;
   setUser: (user: User) => void;
   deleteUser: () => void;
@@ -19,9 +19,9 @@ export const useUserStore = create<State>()(
             user: {
               name,
               settings: {
-                work: 25,
-                break: 5,
-                longBreak: 15,
+                work: 1,
+                break: 1,
+                longBreak: 1,
                 alarm: "bell",
                 volume: 0.5,
               },

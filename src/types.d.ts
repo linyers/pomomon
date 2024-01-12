@@ -1,3 +1,5 @@
+import { PomodoroMode } from "./enums";
+
 interface Settings {
   work: number;
   break: number;
@@ -11,17 +13,11 @@ export interface User {
   settings: Settings;
 }
 
-export enum PomodoroMode {
-  WORK = "work",
-  BREAK = "break",
-  LONG_BREAK = "longBreak",
-}
-
-interface Times {
-  work: number;
-  break: number;
-  longBreak: number;
-}
+// interface Times {
+//   work: number;
+//   break: number;
+//   longBreak: number;
+// }
 
 export interface Pomodoro {
   isActive: boolean;
@@ -29,5 +25,6 @@ export interface Pomodoro {
   timePassed: number;
   totalTime: number;
   mode: PomodoroMode;
-  times: Times;
+  round: number;
+  // times: Times;
 }
