@@ -1,6 +1,5 @@
 import { useUserStore } from "../store/user";
 import { usePomodoroStore } from "../store/pomodoro";
-import { PomodoroMode } from "../enums";
 
 export default function UnAuthHome() {
   window.history.pushState({}, "", "/");
@@ -12,11 +11,12 @@ export default function UnAuthHome() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const nameInput = e.currentTarget.name;
-    const name = nameInput && nameInput.value.trim();
+    const data = new FormData(e.currentTarget);
+    const name = data.get("name") as string;
     if (!name) return;
     setDefaultUser(name);
-    setDefaultPomodoro();
+    const defaultWorkTime = 25;
+    setDefaultPomodoro(defaultWorkTime);
   };
 
   return (

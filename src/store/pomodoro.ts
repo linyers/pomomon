@@ -67,7 +67,7 @@ export const usePomodoroStore = create<State>()(
             },
           });
         },
-        setDefaultPomodoro: (time: number = 1) => {
+        setDefaultPomodoro: (time: number) => {
           const seconds = time * 60;
           set({
             pomodoro: {

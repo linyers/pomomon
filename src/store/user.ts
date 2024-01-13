@@ -5,7 +5,14 @@ import { type User } from "../types";
 interface State {
   user?: User;
   setDefaultUser: (name: string) => void;
-  setUser: (user: User) => void;
+  setUser: (
+    name: string,
+    workTime: number,
+    breakTime: number,
+    longbreakTime: number,
+    alarm: string,
+    volume: number,
+  ) => void;
   deleteUser: () => void;
 }
 
@@ -19,17 +26,37 @@ export const useUserStore = create<State>()(
             user: {
               name,
               settings: {
-                work: 1,
-                break: 1,
-                longBreak: 1,
+                work: 25,
+                break: 5,
+                longBreak: 10,
                 alarm: "bell",
                 volume: 0.5,
               },
             },
           });
         },
-        setUser: (user: User) => {
-          set({ user });
+        setUser: (
+          name: string,
+          workTime: number,
+          breakTime: number,
+          longbreakTime: number,
+          alarm: string,
+          volume: number,
+        ) => {
+          const user = get().user;
+
+          const newName = name !== "" ? name : user?.name;
+          const newUser = {
+            name: newName,
+            settings: {
+              work: workTime,
+              break: breakTime,
+              longBreak: longbreakTime,
+              alarm,
+              volume,
+            },
+          } as User;
+          set({ user: newUser });
         },
         deleteUser: () => {
           set({ user: undefined });

@@ -20,7 +20,7 @@ export default function () {
     const changeMode = () => {
       if (!user || !pomodoro.isActive) return;
       const longBreakRound = 4;
-      const finishRound = 2;
+      const finishRound = 8;
 
       if (
         pomodoro.round === finishRound &&
@@ -76,6 +76,11 @@ export default function () {
     setActive(!pomodoro.isActive);
   };
 
+  const handleReset = () => {
+    if (!user) return;
+    setDefaultPomodoro(user.settings.work);
+  };
+
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const restSeconds = seconds % 60;
@@ -92,6 +97,7 @@ export default function () {
       <button onClick={handleStop}>
         {pomodoro?.isActive ? "Stop" : "Start"}
       </button>
+      <button onClick={handleReset}>Reset</button>
       <p>{pomodoro.mode}</p>
       <p>{pomodoro.round}</p>
       <p>{formatTime(pomodoro.timeLeft)}</p>
