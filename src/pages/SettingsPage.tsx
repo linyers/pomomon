@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../store/user";
 import { usePomodoroStore } from "../store/pomodoro";
 
@@ -12,6 +12,8 @@ export default function SettingsPage() {
   );
   const [errors, setErrors] = useState<string[]>([]);
   const [reset, setReset] = useState<boolean>(false);
+
+  const formRef = useRef(null);
 
   useEffect(() => {
     if (reset) {
@@ -44,8 +46,19 @@ export default function SettingsPage() {
     if (!user) return;
     setDefaultUser(user.name);
     const defaultWorkTime = 25;
+    const defaultBreakTime = 5;
+    const defaultLongBreakTime = 10;
+    const defaultAlarm = "bell";
+    const defaultVolume = 0.5;
     setDefaultPomodoro(defaultWorkTime);
     setReset(!reset);
+
+    if (!formRef.current) return;
+    formRef.current.work.value = defaultWorkTime;
+    formRef.current.break.value = defaultBreakTime;
+    formRef.current.longBreak.value = defaultLongBreakTime;
+    formRef.current.alarm.value = defaultAlarm;
+    formRef.current.volume.value = defaultVolume;
   };
 
   const disableWheel = (e: React.WheelEvent<HTMLInputElement>) => {
@@ -55,7 +68,7 @@ export default function SettingsPage() {
   return (
     <>
       <h1>Settings</h1>
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <input
           defaultValue={user?.name}
           name="name"
