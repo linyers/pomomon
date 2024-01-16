@@ -36,7 +36,7 @@ export default function SettingsPage() {
     const breakTime = Number(data.get("break"));
     const longBreak = Number(data.get("longBreak"));
     const alarm = data.get("alarm") as string;
-    const volume = Number(data.get("volume"));
+    const volume = Number(data.get("volume")) * 0.01;
 
     setUser(name, work, breakTime, longBreak, alarm, volume);
     setDefaultPomodoro(work);
@@ -53,7 +53,7 @@ export default function SettingsPage() {
     const defaultBreakTime = 5;
     const defaultLongBreakTime = 10;
     const defaultAlarm = "bell";
-    const defaultVolume = 0.5;
+    const defaultVolume = 50;
     setDefaultPomodoro(defaultWorkTime);
     setReset(!reset);
 
@@ -79,7 +79,7 @@ export default function SettingsPage() {
 
     const audioName = formRef.current.alarm.value;
     audioRef.current.src = audios[audioName] || audios.bell;
-    const volume = Number(formRef.current.volume.value);
+    const volume = Number(formRef.current.volume.value) * 0.01;
     audioRef.current.volume = volume;
     audioRef.current.play();
   };
@@ -87,10 +87,12 @@ export default function SettingsPage() {
   const audios = ["bell", "nooo"];
 
   return (
-    <>
-      <h1>Settings</h1>
-      <form ref={formRef} onSubmit={handleSubmit}>
+    <main className="grid gap-10 mt-14 bg-red-200 border-4 border-red-300 p-5 rounded-3xl md:w-2/3 m-auto">
+      <h1 className="text-3xl font-bold">Settings</h1>
+      <form className="grid gap-2" ref={formRef} onSubmit={handleSubmit}>
+        <label className="flex self-end px-2">Name:</label>
         <input
+          className="p-2 border-2 border-red-300 rounded-xl text-lg"
           defaultValue={user?.name}
           name="name"
           placeholder="Username"
@@ -101,76 +103,109 @@ export default function SettingsPage() {
               : setErrors(errors.filter((error) => error !== "name"))
           }
         />
-        <input
-          defaultValue={user?.settings.work}
-          name="work"
-          placeholder="Work time"
-          type="number"
-          onChange={(e) =>
-            !e.target.value || e.target.value === "0"
-              ? setErrors([...errors, "work"])
-              : setErrors(errors.filter((error) => error !== "work"))
-          }
-          onWheel={disableWheel}
-        />
-        <input
-          defaultValue={user?.settings.break}
-          name="break"
-          placeholder="Break time"
-          type="number"
-          onChange={(e) =>
-            !e.target.value || e.target.value === "0"
-              ? setErrors([...errors, "break"])
-              : setErrors(errors.filter((error) => error !== "break"))
-          }
-          onWheel={disableWheel}
-        />
-        <input
-          defaultValue={user?.settings.longBreak}
-          name="longBreak"
-          placeholder="Long break time"
-          type="number"
-          onChange={(e) =>
-            !e.target.value || e.target.value === "0"
-              ? setErrors([...errors, "longBreak"])
-              : setErrors(errors.filter((error) => error !== "longBreak"))
-          }
-          onWheel={disableWheel}
-        />
+        <div className="pt-2 grid grid-cols-3 gap-2">
+          <label className="flex self-end px-2">Work time:</label>
+          <label className="flex self-end px-2">Break time:</label>
+          <label className="flex self-end px-2">Long break time:</label>
+          <input
+            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            defaultValue={user?.settings.work}
+            name="work"
+            placeholder="Work time"
+            type="number"
+            onChange={(e) =>
+              !e.target.value || e.target.value === "0"
+                ? setErrors([...errors, "work"])
+                : setErrors(errors.filter((error) => error !== "work"))
+            }
+            onWheel={disableWheel}
+          />
+          <input
+            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            defaultValue={user?.settings.break}
+            name="break"
+            placeholder="Break time"
+            type="number"
+            onChange={(e) =>
+              !e.target.value || e.target.value === "0"
+                ? setErrors([...errors, "break"])
+                : setErrors(errors.filter((error) => error !== "break"))
+            }
+            onWheel={disableWheel}
+          />
+          <input
+            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            defaultValue={user?.settings.longBreak}
+            name="longBreak"
+            placeholder="Long break time"
+            type="number"
+            onChange={(e) =>
+              !e.target.value || e.target.value === "0"
+                ? setErrors([...errors, "longBreak"])
+                : setErrors(errors.filter((error) => error !== "longBreak"))
+            }
+            onWheel={disableWheel}
+          />
+        </div>
 
-        <select name="alarm" id="">
-          {audios.map((audio, idx) => {
-            return (
-              <option
-                selected={user?.settings.alarm === audio}
-                key={idx}
-                value={audio}
-                className="capitalize"
-              >
-                {audio}
-              </option>
-            );
-          })}
-        </select>
-        <button type="button" onClick={playAudio}>
-          Play
-        </button>
+        <label className="pt-2 flex self-end px-2">Alarm sound:</label>
+
+        <div className="gap-2 grid grid-cols-2">
+          <select
+            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            name="alarm"
+            id=""
+            defaultValue={user?.settings.alarm}
+          >
+            {audios.map((audio, idx) => {
+              return (
+                <option key={idx} value={audio} className="capitalize">
+                  {audio}
+                </option>
+              );
+            })}
+          </select>
+          <button
+            className="p-2 rounded-xl text-lg bg-red-300"
+            type="button"
+            onClick={playAudio}
+          >
+            Play
+          </button>
+        </div>
         <audio ref={audioRef} src=""></audio>
         <input
-          defaultValue={user?.settings.volume}
+          className="py-6"
+          type="range"
+          defaultValue={user?.settings.volume * 100}
           name="volume"
           placeholder="Volume"
-          type="number"
-          onWheel={disableWheel}
+          min={0}
+          max={100}
         />
-        <button type="button" onClick={handleDeleteUser}>
-          Delete user
-        </button>
-        <button type="submit">Save changes</button>
-        <button type="button" onClick={handleDefaultSettings}>
-          Default settings
-        </button>
+        <div className="grid grid-cols-3 gap-2">
+          <button
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-400 hover:bg-red-300 font-bold"
+            type="button"
+            onClick={handleDeleteUser}
+          >
+            Delete user
+          </button>
+          <button
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-200 hover:bg-red-300 font-bold"
+            type="submit"
+          >
+            Save changes
+          </button>
+          <button
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-200 hover:bg-red-300 font-bold"
+            type="button"
+            onClick={handleDefaultSettings}
+          >
+            Default settings
+          </button>
+        </div>
       </form>
-    </>
+    </main>
   );
 }

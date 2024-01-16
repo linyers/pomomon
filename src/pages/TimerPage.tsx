@@ -122,7 +122,7 @@ export default function () {
   const audioName = user?.settings.alarm;
 
   return (
-    <>
+    <main className="grid gap-10 mt-14">
       <h1>Run pomodoro</h1>
       <button onClick={handleStop}>
         {pomodoro?.isActive ? "Stop" : "Start"}
@@ -132,6 +132,6 @@ export default function () {
       <p>{pomodoro.round}</p>
       <p>{formatTime(pomodoro.timeLeft)}</p>
       <audio ref={audioRef} src={audios[audioName]}></audio>
-    </>
+    </main>
   );
 }
