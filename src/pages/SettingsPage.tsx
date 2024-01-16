@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../store/user";
 import { usePomodoroStore } from "../store/pomodoro";
 
+import bellSound from "../assets/bell.mp3";
+import noooSound from "../assets/nooo.mp3";
+
 export default function SettingsPage() {
   const deleteUser = useUserStore((state) => state.deleteUser);
   const setDefaultUser = useUserStore((state) => state.setDefaultUser);
@@ -14,6 +17,7 @@ export default function SettingsPage() {
   const [reset, setReset] = useState<boolean>(false);
 
   const formRef = useRef(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     if (reset) {
@@ -64,6 +68,23 @@ export default function SettingsPage() {
   const disableWheel = (e: React.WheelEvent<HTMLInputElement>) => {
     e.currentTarget.blur();
   };
+
+  const playAudio = () => {
+    if (!formRef.current || !audioRef.current) return;
+
+    const audios = {
+      bell: bellSound,
+      nooo: noooSound,
+    };
+
+    const audioName = formRef.current.alarm.value;
+    audioRef.current.src = audios[audioName] || audios.bell;
+    const volume = Number(formRef.current.volume.value);
+    audioRef.current.volume = volume;
+    audioRef.current.play();
+  };
+
+  const audios = ["bell", "nooo"];
 
   return (
     <>
@@ -116,12 +137,25 @@ export default function SettingsPage() {
           }
           onWheel={disableWheel}
         />
-        <input
-          defaultValue={user?.settings.alarm}
-          name="alarm"
-          placeholder="Alarm"
-          type="text"
-        />
+
+        <select name="alarm" id="">
+          {audios.map((audio, idx) => {
+            return (
+              <option
+                selected={user?.settings.alarm === audio}
+                key={idx}
+                value={audio}
+                className="capitalize"
+              >
+                {audio}
+              </option>
+            );
+          })}
+        </select>
+        <button type="button" onClick={playAudio}>
+          Play
+        </button>
+        <audio ref={audioRef} src=""></audio>
         <input
           defaultValue={user?.settings.volume}
           name="volume"

@@ -3,6 +3,9 @@ import { usePomodoroStore } from "../store/pomodoro";
 import { PomodoroMode } from "../enums";
 import { useUserStore } from "../store/user";
 
+import bellSound from "../assets/bell.mp3";
+import noooSound from "../assets/nooo.mp3";
+
 export default function () {
   const user = useUserStore((state) => state.user);
   const pomodoro = usePomodoroStore((state) => state.pomodoro);
@@ -17,6 +20,18 @@ export default function () {
   const [completeTime, setCompleteTime] = useState(false);
 
   useEffect(() => {
+    const playSound = () => {
+      if (!user) return;
+      const audios = {
+        bell: bellSound,
+        nooo: noooSound,
+      };
+      const audioUser = user.settings.alarm;
+      const audio = new Audio(audios[audioUser] || audios.bell);
+      audio.volume = user?.settings.volume;
+      audio.play();
+    };
+
     const changeMode = () => {
       if (!user || !pomodoro.isActive) return;
       const longBreakRound = 4;
@@ -57,7 +72,10 @@ export default function () {
       }
     };
 
-    if (completeTime) changeMode();
+    if (completeTime) {
+      changeMode();
+      playSound();
+    }
 
     let timeLeft = pomodoro.timeLeft || 0;
     const interval = setInterval(() => {
