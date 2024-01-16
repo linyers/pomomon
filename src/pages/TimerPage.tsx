@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePomodoroStore } from "../store/pomodoro";
 import { PomodoroMode } from "../enums";
 import { useUserStore } from "../store/user";
@@ -19,17 +19,26 @@ export default function () {
 
   const [completeTime, setCompleteTime] = useState(false);
 
+  const audioRef = useRef(null);
+
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const restSeconds = seconds % 60;
+
+    const formatedMinutes = String(minutes).padStart(2, "0");
+    const formatedSeconds = String(restSeconds).padStart(2, "0");
+
+    return `${formatedMinutes}:${formatedSeconds}`;
+  };
+
   useEffect(() => {
+    document.title = "PomoMon";
+
     const playSound = () => {
-      if (!user) return;
-      const audios = {
-        bell: bellSound,
-        nooo: noooSound,
-      };
-      const audioUser = user.settings.alarm;
-      const audio = new Audio(audios[audioUser] || audios.bell);
-      audio.volume = user?.settings.volume;
-      audio.play();
+      if (!user || !audioRef.current) return;
+      const volume = Number(user.settings.volume);
+      audioRef.current.volume = volume;
+      audioRef.current.play();
     };
 
     const changeMode = () => {
@@ -78,13 +87,19 @@ export default function () {
     }
 
     let timeLeft = pomodoro.timeLeft || 0;
+    const mode = pomodoro.mode;
     const interval = setInterval(() => {
       timeLeft -= 1;
       if (timeLeft <= 0) {
         setCompleteTime(true);
         return;
       }
-      if (pomodoro.isActive) setTime();
+      if (pomodoro.isActive) {
+        setTime();
+        document.title = `${formatTime(timeLeft)} (${
+          mode[0].toUpperCase() + mode.slice(1)
+        }) - PomoMon`;
+      }
     }, 1000);
 
     return () => clearInterval(interval);
@@ -99,15 +114,12 @@ export default function () {
     setDefaultPomodoro(user.settings.work);
   };
 
-  const formatTime = (seconds: number): string => {
-    const minutes = Math.floor(seconds / 60);
-    const restSeconds = seconds % 60;
-
-    const formatedMinutes = String(minutes).padStart(2, "0");
-    const formatedSeconds = String(restSeconds).padStart(2, "0");
-
-    return `${formatedMinutes}:${formatedSeconds}`;
+  const audios = {
+    bell: bellSound,
+    nooo: noooSound,
   };
+
+  const audioName = user?.settings.alarm;
 
   return (
     <>
@@ -119,6 +131,7 @@ export default function () {
       <p>{pomodoro.mode}</p>
       <p>{pomodoro.round}</p>
       <p>{formatTime(pomodoro.timeLeft)}</p>
+      <audio ref={audioRef} src={audios[audioName]}></audio>
     </>
   );
 }
