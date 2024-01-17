@@ -1,30 +1,31 @@
-# React + TypeScript + Vite
+# PomoMon
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Another application based on the Pomodoro technique.
 
-Currently, two official plugins are available:
+[Web](https://pomomon.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Pomodoro Technique: Leverage the proven Pomodoro technique to enhance your productivity. Work in focused intervals (Pomodoros) followed by short breaks, and track your progress effortlessly.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Customizable Settings: Tailor the timer to fit your work style. Adjust the duration of Pomodoros and breaks to suit your preferences and work rhythm.
 
-- Configure the top-level `parserOptions` property like this:
+## How to use
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- Go to web: [https://pomomon.vercel.app](https://pomomon.vercel.app)
+
+- Configure Timer: Customize Pomodoro and break durations according to your preferences.
+
+- Start Your Session: Initiate the timer and immerse yourself in focused work during Pomodoros.
+
+- Take Breaks: Enjoy well-deserved breaks between Pomodoros to recharge.
+
+## Run
+
+If you want to run the application locally:
+
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+git clone https://github.com/linyers/pomomon.git
+npm install
+npm run dev
+```
