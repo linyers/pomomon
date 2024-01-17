@@ -94,12 +94,12 @@ export default function SettingsPage() {
   const audios = ["bell", "nooo"];
 
   return (
-    <main className="grid gap-10 mt-14 bg-red-200 border-4 border-red-300 p-5 rounded-3xl md:w-2/3 m-auto">
+    <main className="text-red-400 grid gap-10 mt-14 bg-red-200 border-4 border-red-300 p-5 rounded-3xl md:w-2/3 m-auto">
       <h1 className="text-3xl font-bold">Settings</h1>
       <form className="grid gap-2" ref={formRef} onSubmit={handleSubmit}>
         <label className="flex self-end px-2">Name:</label>
         <input
-          className="bg-red-100 p-2 border-2 border-red-300 rounded-xl text-lg"
+          className="bg-red-100 p-2 border-2 border-red-300 rounded-xl text-lg outline-red-400"
           defaultValue={user?.name}
           name="name"
           placeholder="Username"
@@ -115,7 +115,7 @@ export default function SettingsPage() {
           <label className="flex self-end px-2">Break time:</label>
           <label className="flex self-end px-2">Long break time:</label>
           <input
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100 outline-red-400"
             defaultValue={user?.settings.work}
             name="work"
             placeholder="Work time"
@@ -128,7 +128,7 @@ export default function SettingsPage() {
             onWheel={disableWheel}
           />
           <input
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100 outline-red-400"
             defaultValue={user?.settings.break}
             name="break"
             placeholder="Break time"
@@ -141,7 +141,7 @@ export default function SettingsPage() {
             onWheel={disableWheel}
           />
           <input
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100 outline-red-400"
             defaultValue={user?.settings.longBreak}
             name="longBreak"
             placeholder="Long break time"
@@ -159,7 +159,7 @@ export default function SettingsPage() {
 
         <div className="gap-2 grid grid-cols-2">
           <select
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100 outline-red-400"
             name="alarm"
             id=""
             defaultValue={user?.settings.alarm}
@@ -173,7 +173,7 @@ export default function SettingsPage() {
             })}
           </select>
           <button
-            className="p-2 rounded-xl text-lg bg-red-300"
+            className="font-bold p-2 rounded-xl text-lg bg-red-300 border-2 border-red-300 hover:bg-red-300/70 duration-150"
             type="button"
             onClick={playAudio}
           >
@@ -205,20 +205,20 @@ export default function SettingsPage() {
 
         <div className="grid grid-cols-3 gap-2">
           <button
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-400 hover:bg-red-300 font-bold"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-300 hover:bg-red-300/70 font-bold duration-150"
             type="button"
             onClick={handleDeleteUser}
           >
             Delete user
           </button>
           <button
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-200 hover:bg-red-300 font-bold"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-200 hover:bg-red-300 font-bold duration-150"
             type="submit"
           >
             Save changes
           </button>
           <button
-            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-200 hover:bg-red-300 font-bold"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-200 hover:bg-red-300 font-bold duration-150"
             type="button"
             onClick={handleDefaultSettings}
           >

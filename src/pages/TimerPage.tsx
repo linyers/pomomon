@@ -5,6 +5,12 @@ import { useUserStore } from "../store/user";
 
 import bellSound from "../assets/bell.mp3";
 import noooSound from "../assets/nooo.mp3";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRotateLeft,
+  faPause,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function () {
   const user = useUserStore((state) => state.user);
@@ -122,15 +128,35 @@ export default function () {
   const audioName = user?.settings.alarm;
 
   return (
-    <main className="grid gap-10 mt-14">
-      <h1>Run pomodoro</h1>
-      <button onClick={handleStop}>
-        {pomodoro?.isActive ? "Stop" : "Start"}
-      </button>
-      <button onClick={handleReset}>Reset</button>
-      <p>{pomodoro.mode}</p>
-      <p>{pomodoro.round}</p>
-      <p>{formatTime(pomodoro.timeLeft)}</p>
+    <main className="text-red-400 grid gap-10 mt-14">
+      <h1 className="text-6xl font-bold mb-5">PomoMon</h1>
+      <div className="flex items-center justify-center gap-10 text-5xl">
+        <button className="outline-none" onClick={handleStop}>
+          {pomodoro.isActive ? (
+            <FontAwesomeIcon icon={faPause} />
+          ) : (
+            <FontAwesomeIcon icon={faPlay} />
+          )}
+        </button>
+        <button className="outline-none" onClick={handleReset}>
+          <FontAwesomeIcon icon={faArrowRotateLeft} />
+        </button>
+      </div>
+      <p
+        className={`${
+          pomodoro.isActive ? "text-red-500" : "text-red-400"
+        } text-8xl md:text-9xl font-extrabold`}
+      >
+        {formatTime(pomodoro.timeLeft)}
+      </p>
+      <div className="flex items-center justify-center gap-5 text-xl capitalize">
+        <p>
+          Mode: <b>{pomodoro.mode}</b>
+        </p>
+        <p>
+          Round: <b>{pomodoro.round}</b>
+        </p>
+      </div>
       <audio ref={audioRef} src={audios[audioName]}></audio>
     </main>
   );

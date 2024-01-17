@@ -20,8 +20,8 @@ export default function UnAuthHome() {
   };
 
   return (
-    <main className="grid gap-10 mt-14">
-      <h1 className="text-6xl font-bold">Pomomon</h1>
+    <main className="text-red-400 grid gap-10 mt-14">
+      <h1 className="text-6xl font-bold">PomoMon</h1>
       <p className="text-2xl">
         Unlock productivity with Pomomon – your companion for focused goals.
       </p>
@@ -30,12 +30,12 @@ export default function UnAuthHome() {
         <p>Your account will be saved locally on your device.</p>
         <form className="grid py-10 w-fit m-auto" onSubmit={handleSubmit}>
           <input
-            className="p-2 border-2 rounded-xl"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100 outline-red-400"
             type="text"
             name="name"
             placeholder="Your username..."
           />
-          <button className="mt-2 bg-red-200 w-fit m-auto p-3 rounded-xl font-bold text-lg">
+          <button className="mt-2 p-2 border-2 border-red-300 rounded-xl text-lg bg-red-300 hover:bg-red-300/70 font-bold duration-150">
             Enter to Pomomon
           </button>
         </form>
