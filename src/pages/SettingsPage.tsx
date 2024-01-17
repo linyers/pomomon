@@ -5,6 +5,10 @@ import { usePomodoroStore } from "../store/pomodoro";
 import bellSound from "../assets/bell.mp3";
 import noooSound from "../assets/nooo.mp3";
 
+import "../App.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeHigh, faVolumeOff } from "@fortawesome/free-solid-svg-icons";
+
 export default function SettingsPage() {
   const deleteUser = useUserStore((state) => state.deleteUser);
   const setDefaultUser = useUserStore((state) => state.setDefaultUser);
@@ -15,6 +19,7 @@ export default function SettingsPage() {
   );
   const [errors, setErrors] = useState<string[]>([]);
   const [reset, setReset] = useState<boolean>(false);
+  const [volumeRange, setVolumeRange] = useState(user?.settings.volume * 100);
 
   const formRef = useRef(null);
   const audioRef = useRef(null);
@@ -63,6 +68,8 @@ export default function SettingsPage() {
     formRef.current.longBreak.value = defaultLongBreakTime;
     formRef.current.alarm.value = defaultAlarm;
     formRef.current.volume.value = defaultVolume;
+
+    setVolumeRange(defaultVolume);
   };
 
   const disableWheel = (e: React.WheelEvent<HTMLInputElement>) => {
@@ -92,7 +99,7 @@ export default function SettingsPage() {
       <form className="grid gap-2" ref={formRef} onSubmit={handleSubmit}>
         <label className="flex self-end px-2">Name:</label>
         <input
-          className="p-2 border-2 border-red-300 rounded-xl text-lg"
+          className="bg-red-100 p-2 border-2 border-red-300 rounded-xl text-lg"
           defaultValue={user?.name}
           name="name"
           placeholder="Username"
@@ -108,7 +115,7 @@ export default function SettingsPage() {
           <label className="flex self-end px-2">Break time:</label>
           <label className="flex self-end px-2">Long break time:</label>
           <input
-            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
             defaultValue={user?.settings.work}
             name="work"
             placeholder="Work time"
@@ -121,7 +128,7 @@ export default function SettingsPage() {
             onWheel={disableWheel}
           />
           <input
-            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
             defaultValue={user?.settings.break}
             name="break"
             placeholder="Break time"
@@ -134,7 +141,7 @@ export default function SettingsPage() {
             onWheel={disableWheel}
           />
           <input
-            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
             defaultValue={user?.settings.longBreak}
             name="longBreak"
             placeholder="Long break time"
@@ -152,7 +159,7 @@ export default function SettingsPage() {
 
         <div className="gap-2 grid grid-cols-2">
           <select
-            className="p-2 border-2 border-red-300 rounded-xl text-lg"
+            className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-100"
             name="alarm"
             id=""
             defaultValue={user?.settings.alarm}
@@ -174,15 +181,28 @@ export default function SettingsPage() {
           </button>
         </div>
         <audio ref={audioRef} src=""></audio>
-        <input
-          className="py-6"
-          type="range"
-          defaultValue={user?.settings.volume * 100}
-          name="volume"
-          placeholder="Volume"
-          min={0}
-          max={100}
-        />
+
+        <div className="flex items-center justify-center gap-5">
+          <span className="text-red-400">
+            <FontAwesomeIcon
+              icon={volumeRange > 0 ? faVolumeHigh : faVolumeOff}
+            />
+          </span>
+          <label className="w-2/3 md:w-1/2 slider">
+            <input
+              type="range"
+              className="level my-6 outline-none"
+              defaultValue={user?.settings.volume * 100}
+              name="volume"
+              placeholder="Volume"
+              min={0}
+              max={100}
+              onChange={(e) => setVolumeRange(Number(e.target.value))}
+            />
+          </label>
+          <span className="text-red-400 font-bold">{volumeRange}</span>
+        </div>
+
         <div className="grid grid-cols-3 gap-2">
           <button
             className="p-2 border-2 border-red-300 rounded-xl text-lg bg-red-400 hover:bg-red-300 font-bold"
