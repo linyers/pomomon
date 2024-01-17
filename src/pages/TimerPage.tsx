@@ -25,7 +25,7 @@ export default function () {
 
   const [completeTime, setCompleteTime] = useState(false);
 
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
@@ -125,7 +125,7 @@ export default function () {
     nooo: noooSound,
   };
 
-  const audioName = user?.settings.alarm;
+  const audioName = user?.settings.alarm as keyof typeof audios;
 
   return (
     <main className="text-red-400 grid gap-10 mt-14">

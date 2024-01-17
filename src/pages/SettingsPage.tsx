@@ -19,10 +19,13 @@ export default function SettingsPage() {
   );
   const [errors, setErrors] = useState<string[]>([]);
   const [reset, setReset] = useState<boolean>(false);
-  const [volumeRange, setVolumeRange] = useState(user?.settings.volume * 100);
 
-  const formRef = useRef(null);
-  const audioRef = useRef(null);
+  const [volumeRange, setVolumeRange] = useState(
+    user ? user.settings.volume * 100 : 50,
+  );
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     if (reset) {
@@ -63,6 +66,7 @@ export default function SettingsPage() {
     setReset(!reset);
 
     if (!formRef.current) return;
+
     formRef.current.work.value = defaultWorkTime;
     formRef.current.break.value = defaultBreakTime;
     formRef.current.longBreak.value = defaultLongBreakTime;
@@ -84,8 +88,9 @@ export default function SettingsPage() {
       nooo: noooSound,
     };
 
-    const audioName = formRef.current.alarm.value;
-    audioRef.current.src = audios[audioName] || audios.bell;
+    const audioName = formRef.current.alarm.value as keyof typeof audios;
+    const audioSrc = audios[audioName];
+    audioRef.current.src = audioSrc;
     const volume = Number(formRef.current.volume.value) * 0.01;
     audioRef.current.volume = volume;
     audioRef.current.play();
@@ -192,7 +197,7 @@ export default function SettingsPage() {
             <input
               type="range"
               className="level my-6 outline-none"
-              defaultValue={user?.settings.volume * 100}
+              defaultValue={user ? user.settings.volume * 100 : 50}
               name="volume"
               placeholder="Volume"
               min={0}
