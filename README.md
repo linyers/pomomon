@@ -29,3 +29,9 @@ git clone https://github.com/linyers/pomomon.git
 npm install
 npm run dev
 ```
+
+## Upcoming features:
+
+- Best timer
+
+- Tracking, and achievements.
