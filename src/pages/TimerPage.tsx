@@ -143,9 +143,10 @@ export default function () {
         </button>
       </div>
       <p
+        onClick={handleStop}
         className={`${
           pomodoro.isActive ? "text-red-500" : "text-red-400"
-        } text-8xl md:text-9xl font-extrabold`}
+        } text-8xl md:text-9xl font-extrabold cursor-pointer w-fit mx-auto`}
       >
         {formatTime(pomodoro.timeLeft)}
       </p>
