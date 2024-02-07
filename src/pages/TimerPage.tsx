@@ -42,6 +42,13 @@ export default function () {
         </button>
       </div>
       <Timer />
+      <input
+        className="m-auto bg-red-100 p-2 border-4 border-red-300 rounded-xl text-lg outline-red-400 text-center placeholder-red-300 font-semibold"
+        type="text"
+        name="task"
+        placeholder="Write a task"
+        id=""
+      />
       <div className="flex items-center justify-center gap-5 text-xl capitalize">
         <p>
           Mode: <b>{pomodoro.mode}</b>
