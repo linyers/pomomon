@@ -33,7 +33,6 @@ export default function Timer() {
   }, []);
 
   const handleStop = useMemo(() => {
-    console.log("asd");
     return () => {
       setActive(!pomodoro.isActive);
     };
